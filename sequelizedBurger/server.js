@@ -1,7 +1,11 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-// var myConnection = require('./config/connection.js');
+var sequelize = require('sequelize');
+
+var SeqBurger = require('./models').SeqBurger;
+SeqBurger.sync();
+
 
 var app = express();
 app.use('/static',express.static('public/assets'));
@@ -15,10 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false}));
 var exphbs = require('express-handlebars');
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-// var ORM = require('./config/orm');
-// ORM.selectAll();
-// ORM.insertOne('thursdayBurger', false);
-// ORM.updateOne(2);
+
 
 
 
