@@ -26,43 +26,68 @@ app.set('view engine', 'handlebars');
 //Serve static content for the app from the "public" directory in the application directory.
 
 
-// app.get('/', function(req, res){
-// 	myConnection.query('SELECT * FROM burgers', function(err, data){
-// 		if(err) throw error
-// 			console.log(data);
-// 			res.render('index', {
-// 				burgers:data
-// 		})
-// 	})
-// });
+app.get('/', function(req, res){
+	SeqBurger.findAll({}).then(function(sq_data)
+{
+		res.render('index', {
+			burgers: sq_data
+		})
+	}).catch(function(err){
+		if (err) {
+			throw err;
+		}
+	})
+});
 
-// app.post('/create', function(req, res){
-// 	myConnection.query('INSERT INTO burgers SET ?', {
-// 		burger_name: req.body.burger_name,
-// 		devoured: false
-// 	}, function(err, response){
-// 		if(err) throw err;
-// 		res.redirect('/')
-// 	})
-// 	});
+app.post('/create', function(req, res){
+	SeqBurger.create({
+		name: req.body.name,
+		devoured: false
+	}).then(function(seq_response) {
+		res.redirect('/')
+	}).catch(function(err) {
+		throw err;
+	})
+});
 
 
 
-// app.put('/update', function(req,res){
-// 	myConnection.query('UPDATE burgers SET ? WHERE ?', [{devoured:true}, {id:req.body.id}], function(err, response){
-// 		if(err)throw err;
-// 		res.redirect('/');
 
-// 	});
-// });
 
-// app.delete('/delete', function(req,res){
-// 	myConnection.query('DELETE FROM burgers WHERE ?', [{devoured:true}, {id:req.body.id}], function(err, response){
-// 		if(err)throw err;
-// 		res.redirect('/');
+app.put('/update', function(req,res){
+	SeqBurger.findOne({
+		where: {
+			id: req.body.id,
+		}
+	}).then(function updateBurger(sq_burger){
+		console.log(sq_burger);
+		sq_burger.update({
+			devoured:true
+		}).then(function(arg){
+			res.redirect('/');
+		});
+	});
+});
 
-// 	});
-// });
+app.delete('/delete', function(req,res){
+	// myConnection.query('DELETE FROM burgers WHERE ?', [{devoured:true}, {id:req.body.id}], function(err, response){
+	// 	if(err)throw err;
+	// 	res.redirect('/');
+
+	// });
+	SeqBurger.findOne({
+		where: {
+			id: req.body.id,
+		}
+	}).then(function deleteBurger(del_burger){
+		console.log(del_burger);
+		del_burger.destroy({
+			devoured:true
+		}).then(function(another_arg){
+			res.redirect('/');
+		});
+	});
+});
 
 
 app.listen(port, function(){
