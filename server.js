@@ -6,15 +6,15 @@ var sequelize = require('sequelize');
 var SeqBurger = require('./models').SeqBurger;
 SeqBurger.sync();
 
-var sequelize = require('sequelize'),
-	connection;
-	if (process.env.JAWSDB_URL) {
-		connection = new sequelize('burgers2_db', 'root', 'password', {
-			host: 'localhost',
-			dialect: 'mysql',
-			port: '3000'
-		})
-	}
+// var sequelize = require('sequelize'),
+// 	connection;
+// 	if (process.env.JAWSDB_URL) {
+// 		connection = new sequelize('burgers2_db', 'root', 'password', {
+// 			host: 'localhost',
+// 			dialect: 'mysql',
+// 			port: '3000'
+// 		})
+// 	}
 var app = express();
 app.use('/static',express.static('public/assets'));
 var port = 3000;
