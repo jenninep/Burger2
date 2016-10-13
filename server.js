@@ -17,7 +17,7 @@ SeqBurger.sync();
 // 	}
 var app = express();
 app.use('/static',express.static('public/assets'));
-var port = 3000;
+var port = process.env.PORT || 3000;
 app.use(methodOverride('_method'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
